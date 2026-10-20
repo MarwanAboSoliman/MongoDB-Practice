@@ -47,12 +47,14 @@ app.get("/q3", async (req, res) => {
     genres: ["Action", "Adventure"],
   });
 
-  const data = await movies.find(
-    {
-      year: 2026,
-    },
-    { projection: { _id: 0, title: 1, year: 1, runtime: 1 } },
-  ).toArray();
+  const data = await movies
+    .find(
+      {
+        year: 2026,
+      },
+      { projection: { _id: 0, title: 1, year: 1, runtime: 1 } },
+    )
+    .toArray();
   res.json(data);
 });
 
@@ -65,7 +67,8 @@ app.get("/q4", async (req, res) => {
     {
       year: 2014,
       num_mflix_comments: { $gt: 5 },
-    },
+    }, //بص هي الداتا بيز مفيهاش حاجه كدا فا هترجع فاضي مش غلطة هي اللي فاضية والله
+
     {
       $set: { isPopuler: true },
       $inc: { num_mflix_comments: 1 },
@@ -76,8 +79,17 @@ app.get("/q4", async (req, res) => {
     .find(
       {
         year: 2014,
+        num_mflix_comments: { $gt: 5 },
       },
-      { projection: { _id: 0, title: 1, isPopuler: 1, num_mflix_comments: 1 } },
+      {
+        projection: {
+          _id: 0,
+          title: 1,
+          isPopuler: 1,
+          num_mflix_comments: 1,
+          year: 1,
+        },
+      },
     )
     .toArray();
   res.json(data);
